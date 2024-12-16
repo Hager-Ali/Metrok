@@ -6,8 +6,8 @@ import '../widgets/bottom_sheet/result_bottom_sheet.dart';
 
 class SearchButtonController extends GetxController {
   final RxBool isLoading = false.obs;
-  final RxString firstStation = ''.obs;
-  final RxString lastStation = ''.obs;
+  var firstStation = '';
+  var lastStation = '';
 
   Future<void> searchByStations(
     BuildContext context,
@@ -33,42 +33,42 @@ class SearchButtonController extends GetxController {
 
   Future<void> searchByAddresses(
     BuildContext context,
-    TextEditingController address1,
-    TextEditingController address2,
+    TextEditingController sourceAddress,
+    TextEditingController destinationAddress,
   ) async {
-    if (address2.text.isEmpty) {
+    if (destinationAddress.text.isEmpty) {
       Get.snackbar('Error'.tr, 'Please enter destination address'.tr);
       return;
     }
 
-    if (address1.text == address2.text) {
+    if (sourceAddress.text == destinationAddress.text) {
       Get.snackbar('Error'.tr, 'Source and destination are the same'.tr);
       return;
     }
 
     isLoading.value = true;
     try {
-      final firstStationResult = await processAddresses(address1);
+      final firstStationResult = await processAddresses(sourceAddress);
       if (firstStationResult == null) {
         isLoading.value = false;
         return;
       }
 
       final nearestStationFromAddress = NearestStationFromAddress();
-      final secondStationResult = await nearestStationFromAddress.getStation(address2);
+      final secondStationResult = await nearestStationFromAddress.getStation(destinationAddress);
       
       if (secondStationResult == null) {
         isLoading.value = false;
         return;
       }
 
-      firstStation.value = firstStationResult;
-      lastStation.value = secondStationResult.stationName;
+      firstStation = firstStationResult;
+      lastStation = secondStationResult.stationName;
 
       ResultBottomSheet.showBottomSheet(
         context,
-        firstStation.value,
-        lastStation.value,
+        firstStation,
+        lastStation,
       );
     } finally {
       isLoading.value = false;

@@ -1,6 +1,7 @@
 // Packages
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:metrok/controllers/search_controller.dart';
 import 'package:metrok/services/address_processing.dart';
 import 'package:metrok/services/nearest_station_from_address.dart';
 import 'dart:async';
@@ -36,17 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
   var firstStationDropDown = ''.obs;
   var lastStationDropDown = ''.obs;
 
-  final address1 = TextEditingController();
-  final address2 = TextEditingController();
+  final sourceAddress = TextEditingController();
+  final destinationAddress = TextEditingController();
 
   final locationServiceManager = LocationServiceManager();
   late final LanguageController languageController;
+  final searchButtonController = SearchButtonController();
 
   final MyCurrentLocation myCurrentLocation = MyCurrentLocation();
 
   @override
   void initState() {
     super.initState();
+      Get.put(
+        searchButtonController); // Get.put: This makes it possible to access this object anywhere in the application.
     _getNearestStation();
     _initializeLocationService();
 
@@ -126,50 +130,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? _buildStationSelectionView()
                   : _buildAddressInputView()),
             const SizedBox(height: 24),
-            // SearchButton(
-            //   isStationActive: stationActive.value,
-            //   firstStationDropDown: firstStationDropDown,
-            //   lastStationDropDown: lastStationDropDown,
-            //   address1: address1,
-            //   address2: address2),
-            SearchButton(onPressedSearchButton: () async {
-              if (stationActive.value) {
-                if (firstStationDropDown.isNotEmpty &&
-                    lastStationDropDown.isNotEmpty) {
-                  if (firstStationDropDown != lastStationDropDown) {
-                    ResultBottomSheet.showBottomSheet(
-                        context, firstStationDropDown.value, lastStationDropDown.value);
-                  } else {
-                    Get.snackbar('Error'.tr, 'Both stations are the same'.tr);
-                  }
-                }
-              } else {
-                if (address2.text.isNotEmpty) {
-                  if (address1.text != address2.text) {
-                    final result = await processAddresses(address1);
-                    if (result == null) {
-                      return;
+            Obx(() => SearchButton(
+                  isLoading: searchButtonController.isLoading.value,
+                  onPressedSearchButton: () async {
+                    final searchButtonController =
+                        Get.find<SearchButtonController>();
+                    if (stationActive.value) {
+                      searchButtonController.searchByStations(context, firstStationDropDown.value, lastStationDropDown.value);
+                    } else {
+                      searchButtonController.searchByAddresses(
+                          context, sourceAddress, destinationAddress);
                     }
-                    final nearestStationFromAddress =
-                        NearestStationFromAddress();
-                    final latLongNearestStation2 =
-                        await nearestStationFromAddress.getStation(address2);
-                    if (latLongNearestStation2 == null) {
-                      return;
-                    }
-                    firstStationDropDown.value = result;
-                    lastStationDropDown.value = latLongNearestStation2.stationName;
-
-                    ResultBottomSheet.showBottomSheet(
-                      context,
-                      firstStationDropDown.value,
-                      lastStationDropDown.value,
-                    );
-                  }
-                }
-              }
-            }
-            ),
+                  })),
             const SizedBox(height: 6),
             LanguageToggleButton(languageController: languageController),
           ],
@@ -180,13 +152,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildStationSelectionView() {
     return Column(
       children: [
-
-        // StationsDropdown(
-        //   hintText: 'Select first station',
-        //   onSelectionChange: (selectedItem) {
-        //     firstStationDropDown = selectedItem.isNotEmpty ? selectedItem.first : '';
-        //   },
-        // ),
           StationsDropdown(
           selectedStation:
               firstStationDropDown.value,
@@ -201,12 +166,6 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
         const SizedBox(height: 20),
-        // StationsDropdown(
-        //   hintText: 'Select last station',
-        //   onSelectionChange: (selectedItem) {
-        //     lastStationDropDown = selectedItem.isNotEmpty ? selectedItem.first : '';
-        //   },
-        // ),
         StationsDropdown(
           selectedStation: lastStationDropDown.value,
           defaultHintText: 'Select last station',
@@ -227,12 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: [
         AddressFields(
-          address: address1,
+          address: sourceAddress,
           hintText: 'Your current location',
         ),
         const SizedBox(height: 20),
         AddressFields(
-          address: address2,
+          address: destinationAddress,
           hintText: 'Write destination',
         ),
       ],
