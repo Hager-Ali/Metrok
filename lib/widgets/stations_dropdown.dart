@@ -8,19 +8,25 @@ import 'package:metrok/data/app_colors.dart';
 import 'package:metrok/data/select_font_family.dart';
 
 class StationsDropdown extends StatelessWidget {
-  final String hintText;
+  final String? selectedStation;
+  final String defaultHintText;
   final OnSelectionChanged<String>? onSelectionChange;
 
   const StationsDropdown({
     super.key,
-    required this.hintText,
+    required this.selectedStation,
+    required this.defaultHintText,
     required this.onSelectionChange,
   });
 
   @override
   Widget build(BuildContext context) {
     return MultiDropdown<String>(
-      fieldDecoration: _buildFieldDecoration(hintText.tr),
+      fieldDecoration: _buildFieldDecoration(
+        selectedStation == '' || selectedStation!.isEmpty
+            ? defaultHintText.tr
+            : selectedStation!.tr,
+      ),
       searchDecoration: _buildSearchDecoration('Search'.tr),
       singleSelect: true,
       searchEnabled: true,

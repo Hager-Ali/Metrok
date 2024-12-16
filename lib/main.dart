@@ -9,7 +9,6 @@ Future<void> main() async {
   await GetStorage.init();
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   MyApp({super.key});
  

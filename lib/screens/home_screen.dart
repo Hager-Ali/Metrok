@@ -33,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final RxBool stationActive = true.obs;
   final RxBool locationActive = false.obs;
 
-  var firstStationDropDown = '';
-  var lastStationDropDown = '';
+  var firstStationDropDown = ''.obs;
+  var lastStationDropDown = ''.obs;
 
   final address1 = TextEditingController();
   final address2 = TextEditingController();
@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     lastStationDropDown.isNotEmpty) {
                   if (firstStationDropDown != lastStationDropDown) {
                     ResultBottomSheet.showBottomSheet(
-                        context, firstStationDropDown, lastStationDropDown);
+                        context, firstStationDropDown.value, lastStationDropDown.value);
                   } else {
                     Get.snackbar('Error'.tr, 'Both stations are the same'.tr);
                   }
@@ -157,13 +157,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (latLongNearestStation2 == null) {
                       return;
                     }
-                    firstStationDropDown = result;
-                    lastStationDropDown = latLongNearestStation2.stationName;
+                    firstStationDropDown.value = result;
+                    lastStationDropDown.value = latLongNearestStation2.stationName;
 
                     ResultBottomSheet.showBottomSheet(
                       context,
-                      firstStationDropDown,
-                      lastStationDropDown,
+                      firstStationDropDown.value,
+                      lastStationDropDown.value,
                     );
                   }
                 }
@@ -180,17 +180,43 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildStationSelectionView() {
     return Column(
       children: [
-        StationsDropdown(
-          hintText: 'Select first station',
-          onSelectionChange: (selectedItem) {
-            firstStationDropDown = selectedItem.isNotEmpty ? selectedItem.first : '';
+
+        // StationsDropdown(
+        //   hintText: 'Select first station',
+        //   onSelectionChange: (selectedItem) {
+        //     firstStationDropDown = selectedItem.isNotEmpty ? selectedItem.first : '';
+        //   },
+        // ),
+          StationsDropdown(
+          selectedStation:
+              firstStationDropDown.value,
+          defaultHintText: 'Select first station',
+          onSelectionChange: (value) {
+            if (value.isNotEmpty) {
+              firstStationDropDown.value =
+                  value.first;
+            } else {
+              firstStationDropDown.value = '';
+            }
           },
         ),
         const SizedBox(height: 20),
+        // StationsDropdown(
+        //   hintText: 'Select last station',
+        //   onSelectionChange: (selectedItem) {
+        //     lastStationDropDown = selectedItem.isNotEmpty ? selectedItem.first : '';
+        //   },
+        // ),
         StationsDropdown(
-          hintText: 'Select last station',
-          onSelectionChange: (selectedItem) {
-            lastStationDropDown = selectedItem.isNotEmpty ? selectedItem.first : '';
+          selectedStation: lastStationDropDown.value,
+          defaultHintText: 'Select last station',
+          onSelectionChange: (value) {
+            if (value.isNotEmpty) {
+              lastStationDropDown.value =
+                  value.first;
+            } else {
+              lastStationDropDown.value = '';
+            }
           },
         ),
       ],
