@@ -8,33 +8,11 @@ Widget multiRoutes({
   required final String exchangeStation,
   required final String firstDirection,
   required final String secondDirection,
-  required final String stationsNum,
+  required final int stationsNum,
   required final String ticketPrice,
   required final String arrivalTime,
 }) {
   return Column(children: [
-    Row(
-      children: [
-        const Icon(
-          Icons.swap_horiz,
-          size: 16,
-          color: AppColors.grey,
-        ),
-        const SizedBox(width: 4),
-        Text('Exchange station: '.tr,
-            style: TextStyle(
-                fontSize: 14,
-                fontFamily: SelectFontFamily.getFontFamily(),
-                color: AppColors.grey)),
-        const SizedBox(width: 4),
-        Text(exchangeStation.tr,
-            style: TextStyle(
-                fontSize: 14,
-                fontFamily: SelectFontFamily.getFontFamily(),
-                color: AppColors.black))
-      ],
-    ),
-    const SizedBox(height: 12),
     Row(
       children: [
         const Icon(
@@ -50,6 +28,28 @@ Widget multiRoutes({
                 color: AppColors.grey)),
         const SizedBox(width: 4),
         Text(firstDirection.tr,
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: SelectFontFamily.getFontFamily(),
+                color: AppColors.black))
+      ],
+    ),
+    const SizedBox(height: 12),
+    Row(
+      children: [
+        const Icon(
+          Icons.swap_horiz,
+          size: 16,
+          color: AppColors.grey,
+        ),
+        const SizedBox(width: 4),
+        Text('Exchange station: '.tr,
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: SelectFontFamily.getFontFamily(),
+                color: AppColors.grey)),
+        const SizedBox(width: 4),
+        Text(exchangeStation.tr,
             style: TextStyle(
                 fontSize: 14,
                 fontFamily: SelectFontFamily.getFontFamily(),

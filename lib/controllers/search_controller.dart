@@ -6,23 +6,15 @@ import '../widgets/bottom_sheet/result_bottom_sheet.dart';
 
 class SearchButtonController extends GetxController {
   final RxBool isLoading = false.obs;
-  var firstStation = '';
-  var lastStation = '';
+  var source = '';
+  var destination = '';
 
   Future<void> searchByStations(
     BuildContext context,
     String firstStationDropDown,
     String lastStationDropDown,
   ) async {
-    if (firstStationDropDown.isEmpty || lastStationDropDown.isEmpty) {
-      Get.snackbar('Error'.tr, 'Please select both stations'.tr);
-      return;
-    }
-
-    if (firstStationDropDown == lastStationDropDown) {
-      Get.snackbar('Error'.tr, 'Both stations are the same'.tr);
-      return;
-    }
+    if (!_validateStations(firstStationDropDown, lastStationDropDown)) return;
 
     ResultBottomSheet.showBottomSheet(
       context,
@@ -36,13 +28,7 @@ class SearchButtonController extends GetxController {
     TextEditingController sourceAddress,
     TextEditingController destinationAddress,
   ) async {
-    if (destinationAddress.text.isEmpty) {
-      Get.snackbar('Error'.tr, 'Please enter destination address'.tr);
-      return;
-    }
-
-    if (sourceAddress.text == destinationAddress.text) {
-      Get.snackbar('Error'.tr, 'Source and destination are the same'.tr);
+    if (!_validateAddresses(sourceAddress.text, destinationAddress.text)) {
       return;
     }
 
@@ -55,23 +41,50 @@ class SearchButtonController extends GetxController {
       }
 
       final nearestStationFromAddress = NearestStationFromAddress();
-      final secondStationResult = await nearestStationFromAddress.getStation(destinationAddress);
-      
+      final secondStationResult =
+          await nearestStationFromAddress.getStation(destinationAddress);
+
       if (secondStationResult == null) {
         isLoading.value = false;
         return;
       }
 
-      firstStation = firstStationResult;
-      lastStation = secondStationResult.stationName;
+      source = firstStationResult;
+      destination = secondStationResult.stationName;
 
-      ResultBottomSheet.showBottomSheet(
-        context,
-        firstStation,
-        lastStation,
-      );
+      if (context.mounted) {
+        ResultBottomSheet.showBottomSheet(context, source, destination);
+      }
+    } catch (e) {
+      _handleError(e);
     } finally {
       isLoading.value = false;
     }
+  }
+
+  bool _validateStations(String first, String last) {
+    if (first.isEmpty || last.isEmpty) return false;
+
+    if (first == last) {
+      Get.snackbar('Error'.tr, 'Both stations are the same'.tr);
+      return false;
+    }
+    return true;
+  }
+
+  bool _validateAddresses(String source, String destination) {
+    if (destination.isEmpty) return false;
+
+    if (source == destination) {
+      Get.snackbar('Error'.tr, 'Source and destination are the same'.tr);
+      return false;
+    }
+
+    return true;
+  }
+
+  void _handleError(dynamic error) {
+    debugPrint(error.toString());
+    Get.snackbar('Error'.tr, 'Something went wrong'.tr);
   }
 }

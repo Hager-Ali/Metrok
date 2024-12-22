@@ -7,7 +7,7 @@ import 'package:metrok/widgets/bottom_sheet/single_route.dart';
 Widget selectContainer({
     required bool singleContainer,
     required String lineDirection,
-    required String stationsNum,
+    required int stationsNum,
     required String ticketPrice,
     required String arrivalTime,
     required bool otherRoutes,
@@ -18,8 +18,8 @@ Widget selectContainer({
     required String firstRouteDirectionOtherRoute,
     required String secondRouteDirectionOtherRoute,
     required String secondRouteDirection,
-    required String stationsNum1,
-    required String stationsNum2,
+    required int stationsNum1,
+    required int stationsNum2,
     required String secondRouteTicketPrice,
     required String secondRouteArrivalTime,
   }) {

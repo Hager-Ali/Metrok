@@ -3,19 +3,20 @@ import 'package:get/get.dart';
 import 'package:metrok/data/select_font_family.dart';
 
 class RouteContainerDesign extends StatelessWidget {
-  
   final Color containerBorderColor;
   final Color moreTextColor;
   final Color moreButtonBgColor;
   final Widget containerContent;
-  
+  final void Function()? moreButtonOnTap;
+
   const RouteContainerDesign({
     super.key,
     required this.containerContent,
     required this.containerBorderColor,
     required this.moreTextColor,
     required this.moreButtonBgColor,
-    });
+    required this.moreButtonOnTap
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +31,7 @@ class RouteContainerDesign extends StatelessWidget {
             Row(
               children: [
                 InkWell(
-                  onTap: () {
-                    // MoreDetailsBottomSheet.show(context,
-                    //     lineDirection: waysDetails.lineDirection,
-                    //     stationsNum: waysDetails.stationsNum,
-                    //     ticketPrice: waysDetails.ticketPrice,
-                    //     arrivalTime: waysDetails.arrivalTime);
-                  },
+                  onTap: moreButtonOnTap,
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                     decoration: BoxDecoration(

@@ -10,7 +10,7 @@ class SearchButton extends StatelessWidget {
   final bool isLoading;
 
   const SearchButton({
-    super.key, 
+    super.key,
     required this.onPressedSearchButton,
     this.isLoading = false, // initial value
   });

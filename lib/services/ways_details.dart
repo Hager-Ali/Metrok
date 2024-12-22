@@ -34,8 +34,8 @@ class WaysDetails extends GetxController {
           firstStationDropDown: firstStationDropDown,
           lastStationDropDown: lastStationDropDown,
           line: StationsNames.lineOne,
-          direction1: lineOne.direction1,
-          direction2: lineOne.direction2);
+          sourceAddress: lineOne.direction1,
+          destinationAddress: lineOne.direction2);
     }
     // First & last stations in line 2
     else if (StationsNames.lineTwo.contains(firstStationDropDown) &&
@@ -44,8 +44,8 @@ class WaysDetails extends GetxController {
           firstStationDropDown: firstStationDropDown,
           lastStationDropDown: lastStationDropDown,
           line: StationsNames.lineTwo,
-          direction1: lineTwo.direction1,
-          direction2: lineTwo.direction2);
+          sourceAddress: lineTwo.direction1,
+          destinationAddress: lineTwo.direction2);
     }
     // First & last stations in line 3
     else if (StationsNames.lineThree.contains(firstStationDropDown) &&
@@ -54,8 +54,8 @@ class WaysDetails extends GetxController {
           firstStationDropDown: firstStationDropDown,
           lastStationDropDown: lastStationDropDown,
           line: StationsNames.lineThree,
-          direction1: lineThree.direction1,
-          direction2: lineThree.direction2);
+          sourceAddress: lineThree.direction1,
+          destinationAddress: lineThree.direction2);
     }
     //  -------- First station in line 1 one & last stations in line 2 --------
     else if (StationsNames.lineOne.contains(firstStationDropDown) &&
@@ -824,7 +824,7 @@ class WaysDetails extends GetxController {
   }
 
   // Shortest way function
-  String shortesWay(int stationsNum1, int stationsNum2) {
+  String shortesWay(int stationsNum1, int stationsNum2){
     return stationsNum1 == stationsNum2
         ? 'same'
         : stationsNum1 < stationsNum2
@@ -879,19 +879,19 @@ class WaysDetails extends GetxController {
       {required String firstStationDropDown,
       required String lastStationDropDown,
       required List<String> line,
-      required String direction1,
-      required String direction2}) {
+      required String sourceAddress,
+      required String destinationAddress}) {
     final startIndex = line.indexOf(firstStationDropDown);
     final lastIndex = line.indexOf(lastStationDropDown);
 
     if (startIndex < lastIndex) {
-      lineDirection = direction1;
+      lineDirection = sourceAddress;
       stationsNames = line.sublist(startIndex, (lastIndex + 1));
       stationsNum = (stationsNames.length) - 1;
       ticketPrice = PriceCalculator.calcTicketPrice(stationsNum);
       arrivalTime = TimeCalculator.calcArrivalTime(stationsNum);
     } else {
-      lineDirection = direction2;
+      lineDirection = destinationAddress;
       stationsNames =
           line.sublist(lastIndex, (startIndex + 1)).reversed.toList();
       stationsNum = (stationsNames.length) - 1;
@@ -958,14 +958,10 @@ class WaysDetails extends GetxController {
           secondLine: secondLine,
           startIndex: startIndex,
           lastIndex: lastIndex,
-          line1ExchangeStation2:
-              line1ExchangeStation2 ?? 0, // استخدام قيمة افتراضية لو null
-          line2ExchangeStation2:
-              line2ExchangeStation2 ?? 0, // استخدام قيمة افتراضية لو null
-          direction1SecondRoad:
-              direction1SecondRoad ?? false, // تأكيد وجود قيمة افتراضية لو null
-          direction2SecondRoad: direction2SecondRoad ??
-              false); // تأكيد وجود قيمة افتراضية لو null);
+          line1ExchangeStation2: line1ExchangeStation2 ?? 0,
+          line2ExchangeStation2: line2ExchangeStation2 ?? 0,
+          direction1SecondRoad: direction1SecondRoad ?? false,
+          direction2SecondRoad: direction2SecondRoad ?? false);
     }
   }
 }

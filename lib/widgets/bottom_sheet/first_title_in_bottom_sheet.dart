@@ -7,13 +7,12 @@ import 'package:metrok/data/select_font_family.dart';
 
 class FirstTitleInBottomSheet extends StatelessWidget {
   final bool singleContainer;
-  const FirstTitleInBottomSheet({
-    super.key,
-    required this.singleContainer
-  });
+  final String? secondExchangeStation;
+  const FirstTitleInBottomSheet({super.key, required this.singleContainer, required this.secondExchangeStation,});
 
   @override
   Widget build(BuildContext context) {
+    final isOnlyRoute = !singleContainer && (secondExchangeStation?.isEmpty ?? true);
     return Row(
       children: [
         SizedBox(width: 10),
@@ -23,8 +22,8 @@ class FirstTitleInBottomSheet extends StatelessWidget {
           color: AppColors.blue,
         ),
         SizedBox(width: 8),
-         Text(
-          singleContainer ? 'The only route'.tr : 'Shortest route'.tr,
+        Text(
+          singleContainer || isOnlyRoute  ? 'The only route'.tr : 'Shortest route'.tr,
           style: TextStyle(
             fontSize: 14,
             fontFamily: SelectFontFamily.getFontFamily(),

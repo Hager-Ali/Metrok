@@ -2,12 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:metrok/controllers/search_controller.dart';
-import 'package:metrok/services/address_processing.dart';
-import 'package:metrok/services/nearest_station_from_address.dart';
 import 'dart:async';
 // My classes
 import 'package:metrok/services/nearest_station_from_lat_log.dart';
-import 'package:metrok/widgets/bottom_sheet/result_bottom_sheet.dart';
 import 'package:metrok/widgets/search_button.dart';
 import 'package:metrok/widgets/stations_locations_tabs.dart';
 import 'package:metrok/widgets/welcome_text.dart';

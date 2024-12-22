@@ -1,15 +1,17 @@
 // Packages
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // My classes
 import 'package:metrok/data/app_colors.dart';
+import 'package:metrok/data/select_font_family.dart';
 import 'package:metrok/widgets/bottom_sheet/build_another_route_section.dart';
 import 'package:metrok/services/ways_details.dart';
 import 'package:metrok/widgets/bottom_sheet/first_and_last_stations_row.dart';
 import 'package:metrok/widgets/bottom_sheet/first_title_in_bottom_sheet.dart';
+import 'package:metrok/widgets/bottom_sheet/more_details_bottom_sheet.dart';
 import 'package:metrok/widgets/bottom_sheet/route_container_design.dart';
+import 'package:metrok/models/route_details.dart';
 import 'package:metrok/widgets/bottom_sheet/select_container.dart';
-// import 'more_details_bottom_sheet.dart';
-
 class ResultBottomSheet extends StatelessWidget {
   final String firstStationDropDown;
   final String lastStationDropDown;
@@ -63,14 +65,98 @@ class ResultBottomSheet extends StatelessWidget {
               const SizedBox(height: 18),
               // Second section in botthom sheet
               FirstTitleInBottomSheet(
-                  singleContainer: waysDetails.singleContainer),
+                  singleContainer: waysDetails.singleContainer, secondExchangeStation: waysDetails.secondExchangeStation),
               const SizedBox(height: 8),
-              _buildRouteContainer(waysDetails),
+              _buildRouteContainer(context, waysDetails),
               const SizedBox(height: 18),
               // Third section in bottom sheet
-              buildAnotherRouteSection(waysDetails)
+              buildAnotherRouteSection(context, waysDetails,
+                  firstStationDropDown, lastStationDropDown)
             ],
           ),
+        );
+      },
+    );
+  }
+
+  Widget _buildRouteContainer(BuildContext context, WaysDetails waysDetails) {
+    return RouteContainerDesign(
+      containerBorderColor: AppColors.blue,
+      moreTextColor: AppColors.blue,
+      moreButtonBgColor: AppColors.blue.withOpacity(0.2),
+      containerContent: selectContainer(
+          singleContainer: waysDetails.singleContainer,
+          lineDirection: waysDetails.lineDirection,
+          stationsNum: waysDetails.stationsNum,
+          ticketPrice: waysDetails.ticketPrice,
+          arrivalTime: waysDetails.arrivalTime,
+          otherRoutes: waysDetails.otherRoutes,
+          shortesWay: waysDetails.shortesWay(
+              waysDetails.stationsNum1, waysDetails.stationsNum2),
+          firstExchangeStation: waysDetails.firstExchangeStation,
+          secondExchangeStation: waysDetails.secondExchangeStation,
+          firstRouteDirection: waysDetails.firstRouteDirection,
+          firstRouteDirectionOtherRoute:
+              waysDetails.firstRouteDirectionOtherRoute,
+          secondRouteDirectionOtherRoute:
+              waysDetails.secondRouteDirectionOtherRoute,
+          secondRouteDirection: waysDetails.secondRouteDirection,
+          stationsNum1: waysDetails.stationsNum1,
+          stationsNum2: waysDetails.stationsNum2,
+          secondRouteTicketPrice: waysDetails.secondRouteTicketPrice,
+          secondRouteArrivalTime: waysDetails.secondRouteArrivalTime),
+      moreButtonOnTap: () {
+        Get.back();
+        // Get the correct stations list based on route type
+        Widget stationsListWidget;
+        List<String> stations = [];
+        String relevantExchangeStation = '';
+        if (waysDetails.singleContainer) {
+          stationsListWidget = stationsList(waysDetails.stationsNames, relevantExchangeStation);
+        } else {
+          // For multi-route, use mergedList1 or mergedList2 based on shortest route
+          if (waysDetails.shortesWay(
+                  waysDetails.stationsNum1, waysDetails.stationsNum2) ==
+              'stationsNum1') {
+            // Combine stations from first route (mergedList1)
+            for (var list in waysDetails.mergedList1) {
+              stations.addAll(list);
+            }
+            relevantExchangeStation = waysDetails.firstExchangeStation;
+          } else {
+            // Combine stations from second route (mergedList2)
+            for (var list in waysDetails.mergedList2) {
+              stations.addAll(list);
+            }
+            relevantExchangeStation = waysDetails.secondExchangeStation;
+          }
+          stationsListWidget = stationsList(stations, relevantExchangeStation);
+        }
+
+        MoreDetailsBottomSheet.show(
+          context,
+          routeDetails: RouteDetails(
+            firstStation: firstStationDropDown,
+            lastStation: lastStationDropDown,
+            shortestRoute: true,
+            lineDirection: waysDetails.lineDirection,
+            stationsNum: waysDetails.stationsNum,
+            ticketPrice: waysDetails.ticketPrice,
+            arrivalTime: waysDetails.arrivalTime,
+            firstExchangeStation: waysDetails.firstExchangeStation,
+            secondExchangeStation: waysDetails.secondExchangeStation,
+            firstRouteDirection: waysDetails.firstRouteDirection,
+            secondRouteDirection: waysDetails.secondRouteDirection,
+            firstRouteDirectionOtherRoute:
+                waysDetails.firstRouteDirectionOtherRoute,
+            secondRouteDirectionOtherRoute:
+                waysDetails.secondRouteDirectionOtherRoute,
+            stationsNum1: waysDetails.stationsNum1,
+            stationsNum2: waysDetails.stationsNum2,
+            secondRouteTicketPrice: waysDetails.secondRouteTicketPrice,
+            secondRouteArrivalTime: waysDetails.secondRouteArrivalTime,
+          ),
+          stationsList: stationsListWidget,
         );
       },
     );
@@ -90,221 +176,51 @@ Widget _buildDragHandle() {
   );
 }
 
-Widget _buildRouteContainer(WaysDetails waysDetails) {
-  return RouteContainerDesign(
-      containerBorderColor: AppColors.blue,
-      moreTextColor: AppColors.blue,
-      moreButtonBgColor: AppColors.blue.withOpacity(0.2),
-      containerContent: selectContainer(
-          singleContainer: waysDetails.singleContainer,
-          lineDirection: waysDetails.lineDirection,
-          stationsNum: '${waysDetails.stationsNum}',
-          ticketPrice: waysDetails.ticketPrice,
-          arrivalTime: waysDetails.arrivalTime,
-          otherRoutes: waysDetails.otherRoutes,
-          shortesWay: waysDetails.shortesWay(
-              waysDetails.stationsNum1, waysDetails.stationsNum2),
-          firstExchangeStation: waysDetails.firstExchangeStation,
-          secondExchangeStation: waysDetails.secondExchangeStation,
-          firstRouteDirection: waysDetails.firstRouteDirection,
-          firstRouteDirectionOtherRoute:
-              waysDetails.firstRouteDirectionOtherRoute,
-          secondRouteDirectionOtherRoute:
-              waysDetails.secondRouteDirectionOtherRoute,
-          secondRouteDirection: waysDetails.secondRouteDirection,
-          stationsNum1: '${waysDetails.stationsNum1}',
-          stationsNum2: '${waysDetails.stationsNum2}',
-          secondRouteTicketPrice: waysDetails.secondRouteTicketPrice,
-          secondRouteArrivalTime: waysDetails.secondRouteArrivalTime));
+Widget stationsList(List<String> stations, String exchangeStation) {
+  // Remove duplicate exchange stations
+  final notRepeatedStations = stations.toSet().toList();
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: notRepeatedStations.asMap().entries.map((entry) {
+      final index = entry.key;
+      final station = entry.value;
+
+      // Check if station is first, last, or exchange station
+      final isFirstOrLast = (index == 0 || index == notRepeatedStations.length - 1);
+      final isExchangeStation = station == exchangeStation;
+
+      // Use blue color for first, last, and exchange stations
+      final color = (isFirstOrLast || isExchangeStation)
+          ? AppColors.blue
+          : AppColors.grey;
+
+      final fontSize = (isFirstOrLast || isExchangeStation) ? 14.0 : 12.0;
+      final iconSize = (isFirstOrLast || isExchangeStation) ? 16.0 : 12.0;
+
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            Icon(
+              Icons.circle,
+              size: iconSize,
+              color: color,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                station.tr,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontFamily: SelectFontFamily.getFontFamily(),
+                  color: color,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }).toList(),
+  );
 }
-      ///////
-      // Row(
-      //   children: [
-      //     Icon(Icons.train, size: 16, color: AppColors.grey),
-      //     const SizedBox(width: 4),
-      //     Text('Stations names'.tr,
-      //         style: TextStyle(
-      //             fontSize: 14,
-      //             fontFamily: SelectFontFamily.getFontFamily(),
-      //             color: AppColors.grey)),
-      //   ],
-      // ),
-      // const SizedBox(height: 6),
-      // Row(
-      //   children: [
-      //     Obx(() => Expanded(
-      //           child: RichText(
-      //             maxLines: 10,
-      //             text: TextSpan(
-      //               style: TextStyle(
-      //                 fontSize: 14,
-      //                 fontFamily:
-      //                     SelectFontFamily.getFontFamily(),
-      //                 color: AppColors.black,
-      //               ),
-      //               children:
-      //                   waysDetails.stationsNames.map((station) {
-      //                 return TextSpan(
-      //                   text:
-      //                       '${station.tr}, ', // إضافة فاصلة بعد كل محطة
-      //                   style: TextStyle(
-      //                     color: AppColors.black,
-      //                   ),
-      //                 );
-      //               }).toList(),
-      //             ),
-      //           ),
-      //         )),
-      //   ],
-      // ],
-      // ),
-
-
-
-//////////////////////////////////////
-
-
-//               Container(
-//                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-//                 decoration: BoxDecoration(
-//                     border: Border.all(color: AppColors.lightGrey),
-//                     borderRadius: BorderRadius.circular(12)),
-//                 child: Column(
-//                   children: [
-//                     Row(
-//                       children: [
-//                         Icon(
-//                           Icons.directions_outlined,
-//                           size: 16,
-//                           color: AppColors.grey,
-//                         ),
-//                         const SizedBox(width: 4),
-//                         Text('Direction: '.tr,
-//                             style: TextStyle(
-//                                 fontSize: 14,
-//                                 fontFamily: SelectFontFamily.getFontFamily(),
-//                                 color: AppColors.grey)),
-//                         const SizedBox(width: 4),
-//                         Obx(() => Text(waysDetails.lineDirection.value.tr,
-//                             style: TextStyle(
-//                                 fontSize: 14,
-//                                 fontFamily: SelectFontFamily.getFontFamily(),
-//                                 color: AppColors.black))),
-//                       ],
-//                     ),
-//                     const SizedBox(height: 12),
-//                     Row(
-//                       children: [
-//                         Icon(Icons.tag, size: 16, color: AppColors.grey),
-//                         const SizedBox(width: 4),
-//                         Text('Number of stations: '.tr,
-//                             style: TextStyle(
-//                                 fontSize: 14,
-//                                 fontFamily: SelectFontFamily.getFontFamily(),
-//                                 color: AppColors.grey)),
-//                         const SizedBox(width: 4),
-//                         Obx(() => Text('${waysDetails.stationsNum.value}',
-//                             style: TextStyle(
-//                                 fontSize: 14,
-//                                 fontFamily: SelectFontFamily.getFontFamily(),
-//                                 color: AppColors.black))),
-//                       ],
-//                     ),
-//                     const SizedBox(height: 12),
-//                     Row(
-//                       children: [
-//                         Icon(Icons.attach_money,
-//                             size: 16, color: AppColors.grey),
-//                         const SizedBox(width: 4),
-//                         Text('Ticket price: '.tr,
-//                             style: TextStyle(
-//                                 fontSize: 14,
-//                                 fontFamily: SelectFontFamily.getFontFamily(),
-//                                 color: AppColors.grey)),
-//                         const SizedBox(width: 4),
-//                         Obx(() => Text(waysDetails.ticketPrice.value.tr,
-//                             style: TextStyle(
-//                                 fontSize: 14,
-//                                 fontFamily: SelectFontFamily.getFontFamily(),
-//                                 color: AppColors.black))),
-//                       ],
-//                     ),
-//                     const SizedBox(height: 12),
-//                     Row(
-//                       children: [
-//                         Icon(Icons.access_time,
-//                             size: 16, color: AppColors.grey),
-//                         const SizedBox(width: 4),
-//                         Text('Arrival time: '.tr,
-//                             style: TextStyle(
-//                                 fontSize: 14,
-//                                 fontFamily: SelectFontFamily.getFontFamily(),
-//                                 color: AppColors.grey)),
-//                         const SizedBox(width: 4),
-//                         Obx(() => Text(waysDetails.arrivalTime.value,
-//                             style: TextStyle(
-//                                 fontSize: 14,
-//                                 fontFamily: SelectFontFamily.getFontFamily(),
-//                                 color: AppColors.black))),
-//                       ],
-//                     ),
-//                     const SizedBox(height: 12),
-//                     Row(
-//                       children: [
-//                         Container(
-//                           padding: EdgeInsets.symmetric(vertical: 6,horizontal: 20),
-//                           decoration: BoxDecoration(
-//                             color: AppColors.grey.withOpacity(0.2),
-//                             borderRadius: BorderRadius.circular(16)
-//                           ),
-//                         child: Text('More',
-//                         style: TextStyle(
-//                                 fontSize: 14,
-//                                 fontFamily: SelectFontFamily.getFontFamily(),
-//                                 color: AppColors.black)
-//                         ),
-//                         )
-//                       ],
-//                     ),
-//                     // Row(
-//                     //   children: [
-//                     //     Icon(Icons.train, size: 16, color: AppColors.grey),
-//                     //     const SizedBox(width: 4),
-//                     //     Text('Stations names'.tr,
-//                     //         style: TextStyle(
-//                     //             fontSize: 14,
-//                     //             fontFamily: SelectFontFamily.getFontFamily(),
-//                     //             color: AppColors.grey)),
-//                     //   ],
-//                     // ),
-//                     // const SizedBox(height: 6),
-//                     // Row(
-//                     //   children: [
-//                     //     Obx(() => Expanded(
-//                     //           child: RichText(
-//                     //             maxLines: 10,
-//                     //             text: TextSpan(
-//                     //               style: TextStyle(
-//                     //                 fontSize: 14,
-//                     //                 fontFamily:
-//                     //                     SelectFontFamily.getFontFamily(),
-//                     //                 color: AppColors.black,
-//                     //               ),
-//                     //               children:
-//                     //                   waysDetails.stationsNames.map((station) {
-//                     //                 return TextSpan(
-//                     //                   text:
-//                     //                       '${station.tr}, ', // إضافة فاصلة بعد كل محطة
-//                     //                   style: TextStyle(
-//                     //                     color: AppColors.black,
-//                     //                   ),
-//                     //                 );
-//                     //               }).toList(),
-//                     //             ),
-//                     //           ),
-//                     //         )),
-//                     //   ],
-//                     // )
-//                   ],
-//                 ),
-//               ),

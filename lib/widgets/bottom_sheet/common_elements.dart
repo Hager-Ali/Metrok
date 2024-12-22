@@ -4,7 +4,7 @@ import 'package:metrok/data/app_colors.dart';
 import 'package:metrok/data/select_font_family.dart';
 
 Widget commonElements({
-  required final String stationsNum,
+  required final int stationsNum,
   required final String ticketPrice,
   required final String arrivalTime,
 }) {
@@ -20,7 +20,7 @@ Widget commonElements({
                   fontFamily: SelectFontFamily.getFontFamily(),
                   color: AppColors.grey)),
           const SizedBox(width: 4),
-          Text(stationsNum,
+          Text('$stationsNum',
               style: TextStyle(
                   fontSize: 14,
                   fontFamily: SelectFontFamily.getFontFamily(),

@@ -39,8 +39,7 @@ class FirstAndLastStationsRow extends StatelessWidget {
     }
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         buildStationColumn(
             Icons.mode_standby_outlined, firstStationDropDown.tr),

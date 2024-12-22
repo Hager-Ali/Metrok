@@ -6,10 +6,14 @@ class TimeCalculator {
     final int hours = totalMinutes ~/ 60;
     final int minutes = totalMinutes % 60;
 
-    return hours > 0
-        ? '$hours ${'hour &'.tr} $minutes ${'minute'.tr}'
-        : '$minutes ${'minute'.tr}';
-    // ~/ لو كان الناتج من القسمة يحتوي على جزء عشري، يتم تجاهل الجزء العشري
-    // % باقي القسمه
+    if (hours > 0) {
+      return minutes > 0
+          ? '$hours ${'hour'.tr} $minutes ${'minute'.tr}'
+          : '$hours ${'hour'.tr}';
+    } else {
+      return '$minutes ${'minute'.tr}';
+    }
   }
 }
+// ~/ لو كان الناتج من القسمة يحتوي على جزء عشري، يتم تجاهل الجزء العشري
+// % باقي القسمه
