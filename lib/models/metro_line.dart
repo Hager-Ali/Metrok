@@ -7,6 +7,7 @@ class MetroLine {
   final int? nasserIndex;
   final int? alShohadaaIndex;
   final int? attabaIndex;
+  final int? cairoUniversityIndex;
 
   MetroLine({
     required this.name,
@@ -17,5 +18,6 @@ class MetroLine {
     this.nasserIndex,
     this.alShohadaaIndex,
     this.attabaIndex,
+    this.cairoUniversityIndex,
   });
 }

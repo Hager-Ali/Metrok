@@ -1,5 +1,4 @@
 class StationsNames {
-
   static final lineOne = <String>[
     'helwan',
     'ain helwan',
@@ -44,7 +43,7 @@ class StationsNames {
     'omm el-masryeen',
     'el-giza',
     'faisal',
-    'cairo university',
+    'cairo university', // change station 2, 3
     'el-bohoth',
     'dokki',
     'opera',
@@ -62,11 +61,43 @@ class StationsNames {
   ];
 
   static final lineThree = <String>[
+    'Rod al-Farag Axis',
     'ring road',
     'al-qawmeya al-arabiya',
     'el-bohy',
     'imbaba',
     'sudan street',
+    'kit kat',
+    'safaa hegazy',
+    'maspero',
+    'nasser', // change station 1, 3
+    'attaba', // change station 1, 2
+    'bab el-shaaria',
+    'el-geish',
+    'abdou pasha',
+    'abbassia',
+    'fair zone',
+    'stadium',
+    'koleyet el-banat',
+    'al-ahram',
+    'haroun',
+    'heliopolis square',
+    'alf maskan',
+    'nadi el-shams',
+    'el-nozha',
+    'hesham barakat',
+    'qobaa',
+    'omar ibn el-khattab',
+    'el-haykestep',
+    'adly mansour',
+  ];
+
+  static final lineThreeWithBranch = <String> [
+    'cairo university', // change station 2, 3
+    'bulaq el-dakroor',
+    'gamaat el-dowal al-arabiya',
+    'wadi el-nil',
+    'el-tawfikeya',
     'kit kat',
     'safaa hegazy',
     'maspero',
@@ -146,6 +177,11 @@ class StationsNames {
     'mezallat',
     'kolleyyet el-zeraa',
     'shubra el-kheima',
+    'el-tawfikeya',
+    'wadi el-nil',
+    'gamaat el-dowal al-arabiya',
+    'bulaq el-dakroor',
+    'rod al-farag axis',
     'ring road',
     'al-qawmeya al-arabiya',
     'el-bohy',

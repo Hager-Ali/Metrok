@@ -14,7 +14,8 @@ class MyTranslations extends Translations {
           'Both stations are the same': 'Both stations are the same',
           'No internet connection': 'No internet connection',
           'Invalid address format': 'Invalid address format',
-          'Source and destination are the same':'Source and destination are the same',
+          'Source and destination are the same':
+              'Source and destination are the same',
           'Something went wrong': 'Something went wrong',
           // Welcome section
           'Welcome to Metrok': 'Welcome to Metrok',
@@ -27,6 +28,8 @@ class MyTranslations extends Translations {
           'Select first station': 'Select first station',
           'Select last station': 'Select last station',
           'Search': 'Search',
+          // Search section
+          'Leatest search': 'Leatest search',
           // Text field
           'Write start location': 'Write start location',
           'Write destination': 'Write destination',
@@ -111,6 +114,11 @@ class MyTranslations extends Translations {
           'kolleyyet el-zeraa': 'Kolleyyet El-Zeraa',
           'shubra el-kheima': 'Shubra El-Kheima',
           'shubra': 'Shubra',
+          'el-tawfikeya': 'El-Tawfikeya',
+          'wadi el-nil': 'Wadi El-Nil',
+          'gamaat el-dowal al-arabiya': 'Gamaat El-Dowal Al-Arabiya',
+          'bulaq el-dakroor': 'Bulaq El-Dakroor',
+          'Rod al-Farag Axis': 'Rod al-Farag Axis',
           'ring road': 'Ring Road',
           'al-qawmeya al-arabiya': 'Al-Qawmeya Al-Arabiya',
           'el-bohy': 'El-Bohy',
@@ -163,6 +171,8 @@ class MyTranslations extends Translations {
           'Select first station': 'اختر المحطه الاولي',
           'Select last station': 'اختر المحطه الاخيره',
           'Search': 'ابحث',
+          // Search section
+          'Leatest search': 'اخر بحث',
           // Text field
           'Write start location': 'اكتب عنوانك الحالي',
           'Write destination': 'اكتب عنوان واجهتك ',
@@ -194,7 +204,7 @@ class MyTranslations extends Translations {
           // Stations
           'helwan': 'حلوان',
           'ain helwan': 'عين حلوان',
-          'helwan university': 'جامعه حلوان',
+          'helwan university': 'جامعة حلوان',
           'wadi hof': 'وادي حوف',
           'hadayek helwan': 'حدائق حلوان',
           'el-mmaasara': 'المصرة',
@@ -246,7 +256,12 @@ class MyTranslations extends Translations {
           'kolleyyet el-zeraa': 'كلية الزراعة',
           'shubra el-kheima': 'شبرا الخيمة',
           'shubra': 'شبرا',
+          'el-tawfikeya': 'التوفيقية',
+          'wadi el-nil': 'وادي النيل',
+          'gamaat el-dowal al-arabiya': 'جامعة الدول العربية',
+          'bulaq el-dakroor': 'بولاق الدكرور',
           'ring road': 'الطريق الدائري',
+          'Rod al-Farag Axis': 'محور روض الفرج',
           'al-qawmeya al-arabiya': 'القومية العربية',
           'el-bohy': 'البوهي',
           'imbaba': 'إمبابة',

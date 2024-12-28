@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 class TimeCalculator {
   static String calcArrivalTime(int stationsNum) {
-    final int totalMinutes = (stationsNum * 2);
+    final int totalMinutes = (stationsNum * 3);
     final int hours = totalMinutes ~/ 60;
     final int minutes = totalMinutes % 60;
 

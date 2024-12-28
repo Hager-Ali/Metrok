@@ -5,14 +5,15 @@ import 'package:get_storage/get_storage.dart';
 // My classes
 import 'package:metrok/screens/splash_screen.dart';
 import 'package:metrok/localization/my_translations.dart';
+
+final file = GetStorage();
 Future<void> main() async {
   await GetStorage.init();
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
- 
-  final file = GetStorage();
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
-      
+
       home: const SplashScreen(),
       translations: MyTranslations(),
       locale: Locale(selectedLanguage), // Select the default device language

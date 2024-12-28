@@ -3,4 +3,5 @@ class ExchangeStations {
   static const String nasser = 'nasser';
   static const String alShohadaa = 'al-shohadaa';
   static const String attaba = 'attaba';
+  static const String cairoUniversity = 'cairo university';
 }

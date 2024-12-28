@@ -151,30 +151,30 @@ class MoreDetailsBottomSheet extends StatelessWidget {
       return singleRoute(
         lineDirection: routeDetails.lineDirection!,
         stationsNum: routeDetails.stationsNum!,
-        ticketPrice: routeDetails.ticketPrice,
-        arrivalTime: routeDetails.arrivalTime,
+        ticketPrice: routeDetails.ticketPrice!,
+        arrivalTime: routeDetails.arrivalTime!,
       );
     }
 
     return multiRoutes(
-      exchangeStation: routeDetails.shortestRoute 
+      exchangeStation: routeDetails.shortestRoute! 
           ? routeDetails.firstExchangeStation!
           : routeDetails.secondExchangeStation!,
-      firstDirection: routeDetails.shortestRoute
+      firstDirection: routeDetails.shortestRoute!
           ? routeDetails.firstRouteDirection!
           : routeDetails.firstRouteDirectionOtherRoute!,
-      secondDirection: routeDetails.shortestRoute
+      secondDirection: routeDetails.shortestRoute!
           ? routeDetails.secondRouteDirection!
           : routeDetails.secondRouteDirectionOtherRoute!,
-      stationsNum: routeDetails.shortestRoute
+      stationsNum: routeDetails.shortestRoute!
           ? routeDetails.stationsNum1!
           : routeDetails.stationsNum2 ?? 0,
-      ticketPrice: routeDetails.shortestRoute
-          ? routeDetails.ticketPrice
-          : routeDetails.secondRouteTicketPrice ?? routeDetails.ticketPrice,
-      arrivalTime: routeDetails.shortestRoute
-          ? routeDetails.arrivalTime
-          : routeDetails.secondRouteArrivalTime ?? routeDetails.arrivalTime,
+      ticketPrice: routeDetails.shortestRoute!
+          ? routeDetails.ticketPrice!
+          : routeDetails.secondRouteTicketPrice ?? routeDetails.ticketPrice!,
+      arrivalTime: routeDetails.shortestRoute!
+          ? routeDetails.arrivalTime!
+          : routeDetails.secondRouteArrivalTime ?? routeDetails.arrivalTime!,
     );
   }
 
@@ -184,7 +184,7 @@ class MoreDetailsBottomSheet extends StatelessWidget {
     );
   }
 }
-
+  
 class ContentContainer extends StatelessWidget {
   final Widget child;
   final double? height;

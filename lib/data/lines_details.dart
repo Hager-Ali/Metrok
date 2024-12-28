@@ -21,6 +21,7 @@ final lineTwo = MetroLine(
   sadatIndex: StationsNames.lineTwo.indexOf(ExchangeStations.sadat),
   attabaIndex: StationsNames.lineTwo.indexOf(ExchangeStations.attaba),
   alShohadaaIndex: StationsNames.lineTwo.indexOf(ExchangeStations.alShohadaa),
+  cairoUniversityIndex: StationsNames.lineTwo.indexOf(ExchangeStations.cairoUniversity),
 );
 
 final lineThree = MetroLine(
@@ -30,4 +31,14 @@ final lineThree = MetroLine(
   direction2: 'imbaba'.tr,
   attabaIndex: StationsNames.lineThree.indexOf(ExchangeStations.attaba),
   nasserIndex: StationsNames.lineThree.indexOf(ExchangeStations.nasser),
+);
+
+final lineThreeWithBranch = MetroLine(
+  name: 'Line 3 branch',
+  stations: StationsNames.lineOne,
+  direction1: 'airport'.tr,
+  direction2: 'cairo university'.tr,
+  attabaIndex: StationsNames.lineThreeWithBranch.indexOf(ExchangeStations.attaba),
+  nasserIndex: StationsNames.lineThreeWithBranch.indexOf(ExchangeStations.nasser),
+  cairoUniversityIndex: StationsNames.lineThreeWithBranch.indexOf(ExchangeStations.cairoUniversity),
 );

@@ -57,6 +57,16 @@ class WaysDetails extends GetxController {
           sourceAddress: lineThree.direction1,
           destinationAddress: lineThree.direction2);
     }
+    // First & last stations in line 3 with branch
+    else if (StationsNames.lineThreeWithBranch.contains(firstStationDropDown) &&
+        StationsNames.lineThreeWithBranch.contains(lastStationDropDown)) {
+      _singleLineRoad(
+          firstStationDropDown: firstStationDropDown,
+          lastStationDropDown: lastStationDropDown,
+          line: StationsNames.lineThreeWithBranch,
+          sourceAddress: lineThreeWithBranch.direction1,
+          destinationAddress: lineThreeWithBranch.direction2);
+    }
     //  -------- First station in line 1 one & last stations in line 2 --------
     else if (StationsNames.lineOne.contains(firstStationDropDown) &&
         StationsNames.lineTwo.contains(lastStationDropDown)) {
@@ -580,7 +590,7 @@ class WaysDetails extends GetxController {
         }
       }
     }
-    //  -------- First station in line 2 & last station in line 3 --------
+    //  -------- First station in line 2 & last station in line 3 without branch --------
     else if (StationsNames.lineTwo.contains(firstStationDropDown) &&
         StationsNames.lineThree.contains(lastStationDropDown)) {
       final startIndex = StationsNames.lineTwo.indexOf(firstStationDropDown);
@@ -655,6 +665,168 @@ class WaysDetails extends GetxController {
               line2ExchangeStation: lineThreeAttabaIndex,
               direction1FirstRoad: false,
               direction2FirstRoad: true);
+        }
+      }
+    }
+    //  -------- First station in line 2 & last station in line 3 with branch --------
+    if (StationsNames.lineTwo.contains(firstStationDropDown) &&
+        StationsNames.lineThreeWithBranch.contains(lastStationDropDown)) {
+      final startIndex = StationsNames.lineTwo.indexOf(firstStationDropDown);
+      final lineTwoCairoUniversityIndex =
+          StationsNames.lineTwo.indexOf('cairo university');
+      final lineThreeWithBranchCairoUniversityIndex =
+          StationsNames.lineThreeWithBranch.indexOf('cairo university');
+      final lineTwoAttabaIndex = StationsNames.lineTwo.indexOf('attaba');
+      final lineThreeWithBranchAttabaIndex =
+          StationsNames.lineThreeWithBranch.indexOf('attaba');
+      final lastIndex =
+          StationsNames.lineThreeWithBranch.indexOf(lastStationDropDown);
+      final firstLine = StationsNames.lineTwo;
+      final secondLine = StationsNames.lineThreeWithBranch;
+      firstExchangeStation = 'cairo university';
+      secondExchangeStation = 'attaba';
+      singleContainer = false;
+      otherRoutes = true;
+
+      // First station in line 2 before cairo university
+      if (startIndex < lineTwoCairoUniversityIndex) {
+        // Last station in line 3 between cairo university & attaba
+        if (lastIndex > lineThreeWithBranchCairoUniversityIndex &&
+            lastIndex < lineThreeWithBranchAttabaIndex) {
+          firstRouteDirection = 'shubra';
+          secondRouteDirection = 'airport';
+          firstRouteDirectionOtherRoute = 'shubra';
+          secondRouteDirectionOtherRoute = 'cairo university';
+
+          _processRoute(
+              anotherRoat: true,
+              firstLine: firstLine,
+              secondLine: secondLine,
+              startIndex: startIndex,
+              lastIndex: lastIndex,
+              line1ExchangeStation: lineTwoCairoUniversityIndex,
+              line2ExchangeStation: lineThreeWithBranchCairoUniversityIndex,
+              direction1FirstRoad: true,
+              direction2FirstRoad: true,
+              line1ExchangeStation2: lineTwoAttabaIndex,
+              line2ExchangeStation2: lineThreeWithBranchAttabaIndex,
+              direction1SecondRoad: true,
+              direction2SecondRoad: false);
+
+          // Last station in line 3 after attaba
+        } else if (lastIndex > lineThreeWithBranchAttabaIndex) {
+          firstRouteDirection = 'shubra';
+          secondRouteDirection = 'airport';
+          firstRouteDirectionOtherRoute = 'shubra';
+          secondRouteDirectionOtherRoute = 'airport';
+
+          _processRoute(
+              anotherRoat: true,
+              firstLine: firstLine,
+              secondLine: secondLine,
+              startIndex: startIndex,
+              lastIndex: lastIndex,
+              line1ExchangeStation: lineTwoCairoUniversityIndex,
+              line2ExchangeStation: lineThreeWithBranchCairoUniversityIndex,
+              direction1FirstRoad: true,
+              direction2FirstRoad: true,
+              line1ExchangeStation2: lineTwoAttabaIndex,
+              line2ExchangeStation2: lineThreeWithBranchAttabaIndex,
+              direction1SecondRoad: true,
+              direction2SecondRoad: true);
+        }
+        // First station in line 2 between cairo university and attaba
+      } else if (startIndex > lineTwoCairoUniversityIndex &&
+          startIndex > lineTwoAttabaIndex) {
+        // Last station in line 3 between cairo university and attaba
+        if (lastIndex < lineThreeWithBranchAttabaIndex) {
+          firstRouteDirection = 'el-mounib';
+          secondRouteDirection = 'airport';
+          firstRouteDirectionOtherRoute = 'shubra';
+          secondRouteDirectionOtherRoute = 'cairo university';
+
+          _processRoute(
+              anotherRoat: true,
+              firstLine: firstLine,
+              secondLine: secondLine,
+              startIndex: startIndex,
+              lastIndex: lastIndex,
+              line1ExchangeStation: lineTwoCairoUniversityIndex,
+              line2ExchangeStation: lineThreeWithBranchCairoUniversityIndex,
+              direction1FirstRoad: false,
+              direction2FirstRoad: true,
+              line1ExchangeStation2: lineTwoAttabaIndex,
+              line2ExchangeStation2: lineThreeWithBranchAttabaIndex,
+              direction1SecondRoad: true,
+              direction2SecondRoad: false);
+
+          // Last station in line 3 after attaba
+        } else if (lastIndex > lineThreeWithBranchAttabaIndex) {
+          firstRouteDirection = 'el-mounib';
+          secondRouteDirection = 'airport';
+          firstRouteDirectionOtherRoute = 'shubra';
+          secondRouteDirectionOtherRoute = 'airport';
+
+          _processRoute(
+              anotherRoat: true,
+              firstLine: firstLine,
+              secondLine: secondLine,
+              startIndex: startIndex,
+              lastIndex: lastIndex,
+              line1ExchangeStation: lineTwoCairoUniversityIndex,
+              line2ExchangeStation: lineThreeWithBranchCairoUniversityIndex,
+              direction1FirstRoad: false,
+              direction2FirstRoad: true,
+              line1ExchangeStation2: lineTwoAttabaIndex,
+              line2ExchangeStation2: lineThreeWithBranchAttabaIndex,
+              direction1SecondRoad: true,
+              direction2SecondRoad: true);
+        }
+        // First station in line 2 after attaba
+      }else if (startIndex < lineTwoAttabaIndex) {
+        // Last station in line 3 between cairo university and attaba
+        if (lastIndex < lineThreeWithBranchAttabaIndex) {
+          firstRouteDirection = 'el-mounib';
+          secondRouteDirection = 'airport';
+          firstRouteDirectionOtherRoute = 'el-mounib';
+          secondRouteDirectionOtherRoute = 'cairo university';
+
+          _processRoute(
+              anotherRoat: true,
+              firstLine: firstLine,
+              secondLine: secondLine,
+              startIndex: startIndex,
+              lastIndex: lastIndex,
+              line1ExchangeStation: lineTwoCairoUniversityIndex,
+              line2ExchangeStation: lineThreeWithBranchCairoUniversityIndex,
+              direction1FirstRoad: false,
+              direction2FirstRoad: true,
+              line1ExchangeStation2: lineTwoAttabaIndex,
+              line2ExchangeStation2: lineThreeWithBranchAttabaIndex,
+              direction1SecondRoad: false,
+              direction2SecondRoad: false);
+
+          // Last station in line 3 after attaba
+        } else if (lastIndex > lineThreeWithBranchAttabaIndex) {
+          firstRouteDirection = 'el-mounib';
+          secondRouteDirection = 'airport';
+          firstRouteDirectionOtherRoute = 'el-mounib';
+          secondRouteDirectionOtherRoute = 'airport';
+
+          _processRoute(
+              anotherRoat: true,
+              firstLine: firstLine,
+              secondLine: secondLine,
+              startIndex: startIndex,
+              lastIndex: lastIndex,
+              line1ExchangeStation: lineTwoCairoUniversityIndex,
+              line2ExchangeStation: lineThreeWithBranchCairoUniversityIndex,
+              direction1FirstRoad: false,
+              direction2FirstRoad: true,
+              line1ExchangeStation2: lineTwoAttabaIndex,
+              line2ExchangeStation2: lineThreeWithBranchAttabaIndex,
+              direction1SecondRoad: false,
+              direction2SecondRoad: true);
         }
       }
     }
@@ -824,7 +996,7 @@ class WaysDetails extends GetxController {
   }
 
   // Shortest way function
-  String shortesWay(int stationsNum1, int stationsNum2){
+  String shortesWay(int stationsNum1, int stationsNum2) {
     return stationsNum1 == stationsNum2
         ? 'same'
         : stationsNum1 < stationsNum2
